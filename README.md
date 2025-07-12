@@ -18,7 +18,7 @@ Para el control y continuidad operacional de este concentraducto es relevante ma
 
 Un transmisor de presión convierte la medición de la presión de un fluido en una señal eléctrica que puede ser transmitida a sistemas de control o visualización. Funciona detectando los cambios de presión y transformándolos en variaciones de voltaje, corriente o resistencia, que luego son amplificadas y convertidas en una señal estándar. 
 
-Para el correcto control operacional del concentraducto es vital tomar las medidas operacionales necesarias para no exceder presiones en tuberias acorde al diseño de ingenieria establecido en su contrucción, por ello se requiere que los instrumentos (transmisores de presion) entreguen confiabilidad en la operación indicando señales permanentes que refleje los cambios que pudieran producirse en la operación de transporte de concentrado (cambios de fase agua /pulpa, variación de velocidad de bombas de desplazamiento positivo, cambios en reologías de transporte). Es relevante, del punto de vista de integridad de activos que estos instrumentos entreguen señales con la faibilidad necesaria para sostener el control operativo de un transporte de concentrado por tuberias, es importante que en los momentos de mayor exigencias que es cuando se transporta pulpa tengamos la seguridad que las señales que estan llegando a pantalla en sala de control reflefen en todo momento cambios que pudieran producirse en el proceso de modo de conocer las tendencias en la presurización de estas tuberias y tomar los resguardos necesarios para mantener la continuida operativa del sistema.
+Para el correcto control operacional del concentraducto es vital tomar las medidas operacionales necesarias para no exceder presiones en tuberias acorde al diseño de ingenieria establecido en su contrucción, por ello se requiere que los instrumentos (transmisores de presión) entreguen confiabilidad en la operación indicando señales permanentes que refleje los cambios que pudieran producirse en la operación de transporte de concentrado (cambios de fase agua /pulpa, variación de velocidad de bombas de desplazamiento positivo, cambios en reologías de transporte). Es relevante, del punto de vista de integridad de activos que estos instrumentos entreguen señales con la fiabilidad necesaria para sostener el control operativo de un transporte de concentrado por tuberías, es importante que en los momentos de mayor exigencias que es cuando se transporta pulpa tengamos la seguridad que las señales que estan llegando a pantalla en sala de control reflefen en todo momento cambios que pudieran producirse en el proceso de modo de conocer las tendencias en la presurización de estas tuberias y tomar los resguardos necesarios para mantener la continuida operativa del sistema.
 
 
 
@@ -57,14 +57,14 @@ plot(wtc.AB, plot.phase = TRUE, xaxt='n', lty.coi = 1, col.coi = "grey", lwd.coi
 ```
 
 
-<img src="img/Wavelet_Coherencia.bmp" alt="Wavelet Coherencia" width="100%"/> 
+<img src="img/Wavelet_Coherencia.bmp" alt="Wavelet Coherencia" width="75%"/> 
 
 
-Al analizar la coherencia de wavelet por medio de su gráfica podemos comparar ambas señales de los PIT ubicados al interior del bunker SM1, donde se puede observar que existe una relacion de coherencia a nivel moderado por los tonos verdes de la gráfica.
+Al analizar la coherencia de wavelet por medio de su gráfica podemos comparar ambas señales de los PIT ubicados al interior del bunker SM1, donde se puede observar que existe una relación de coherencia a nivel moderado por los tonos verdes de la gráfica.
 
 La mayoria de la coherencia significativa existe en la escala 16 a 64, por lo que se puede inferir que las series o los datos de ambos pit estan mayormente relacionadas en frecuencias altas. Si interpretamos una frecuencia alta visualizando la operacion del concentraducto lo asociamos a una presurizacion mayor de la tuberia es decir valores mas altos, por lo que nos entregan un valor confiable para frecuencias altas.
 
-Por la ubicacion de las flechas podemos indicar que las series se encuentran en fase, oscilaciones sincronizadas es decir los PIT detectarán un evento operacional relacionado en ese lapso de tiempo, donde ademas el primer PIT (SM1_01) precede al PIT (SM1_02) es el que indica la primera señal. Las flechas indican que estan en sintonia. Los PIT se relacionan sus medida mas coherentemente en frecuencias altas.
+Por la ubicacion de las flechas podemos indicar que las series se encuentran en fase, oscilaciones sincronizadas es decir los PIT detectarán un evento operacional relacionado en ese lapso de tiempo, donde ademas el primer PIT (SM1_01) precede al PIT (SM1_02) es el que indica la primera señal. Las flechas indican que estan en sintonía. Los PIT se relacionan sus medida mas coherentemente en frecuencias altas.
 
 ```{r}
 # Calcula la energía en cada escala y tiempo
@@ -112,7 +112,7 @@ ggplot(df_energy, aes(x = tiempo, y = escala, fill = energia)) +
 
 ```
 
-<img src="img/Energia.bmp" alt="Energia Serie" width="100%"/> 
+<img src="img/Energia.bmp" alt="Energia Serie" width="75%"/> 
 
 Si analizamos las energías de cada serie en función de la escala y tiempo, podemos visualizar que la energía es baja, es decir la serie se considera estable y de baja intensidad, es decir ambos PIT reaccionan de la misma manera entre 16 y 64 hertz, reafirmando el gráfico anterior de coherencia de Wavelet. Ratificando que los transmisores de presión siguen siendo confiables a frecuencias altas.
 
@@ -147,7 +147,7 @@ ggplot(df_recon, aes(x = tiempo)) +
 #-------------------------------------------------------------------------------
 ```
 
-<img src="img/Serie original vs filtradas medias.bmp" alt="Energia Serie" width="100%"/> 
+<img src="img/Serie original vs filtradas medias.bmp" alt="Energia Serie" width="75%"/> 
 
 A traves del grafico anterior correspondiente a espectometria de potencia, se graficó para comparar la señal original versus la media de sus valores, determinando la energia de cada una de estas variables y poder comparar ambos graficos y ver si la energia promedio de cada una se condice con la coeherencia de Wavelet. Sabemos que el rango mas coherencia de ambas señales de comportamiento es entre 16 a 64 hertz, estableciendo de que manera la señal original la comparamos con la frecuencia media filtrada de esta forma se aisla el ruido.
 
@@ -173,7 +173,7 @@ points(t1[picos,1], t1[picos,2], col='red', pch=19)
 
 ```
 
-<img src="img/Eventos_picos.bmp" alt="Energia Serie" width="100%"/> 
+<img src="img/Eventos_picos.bmp" alt="Energia Serie" width="75%"/> 
 
 Al analizar grafico de series con picos o eventos relevantes, estos están distribuidos relativamente de manera uniforme a lo largo del tiempo, con una cierta concentración en varias zonas, pero sin patronmes claros de periodicidad. La presencia de estos eventos pueden señalar eventos importantes o anomalias en la serie, pueden corresponder a eventos específicos en el proceso que mide la serie: cambios súbitos en la variable, eventos externos, errores de medición, o episodios relevantes. La distribución uniforme de picos sugiere que estos eventos no están asociados a una tendencia o patrón periódico, sino que ocurren de manera más aleatoria o como respuesta a eventos externos.
 
