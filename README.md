@@ -7,6 +7,9 @@ Analisis de Señales presión tuberias en trazado concentraducto
 Revisar Resumen Catedra 01
 <a href="https://github.com/19762014mcs/Trabajo-Catedra-01/blob/main/README.md" target="_blank">Enlace Github Catedra</a>
 
+Revisar Codigo en Posit
+<a href="https://posit.cloud/spaces/658449/content/10442178" target="_blank">Enlace Posit</a>
+
 **Contexto**
 
 El transporte de solidos por tuberias a larga distancia, y en especial el transporte de concentrado como pulpa o conocido en el ambito minero como concentraducto, requiere un estricto control de los parametros de operación, manteniendo un control en todo momento de presiones a lo largo de la longitud de este concentraducto, debido a que dicho transporte es realizado manteniendo la presurización de la tubería de modo de evitar complicaciones operacionales y permita el desplzamiento de la pulpa hasta el sector de alimentación a espesadores de concentrado comunmente.
