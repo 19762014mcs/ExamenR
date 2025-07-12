@@ -44,7 +44,7 @@ nrands = 10 #numero de simulaciones (Montecarlo)
 sum(is.na(t1)) #Revisar si tenemos datos NA
 sum(is.na(t2)) #Revisar si tenemos datos NA
 
-wtc.AB = wtc(t1, t2, nrands = nrands) #aplicando la transforamda biwavelet
+wtc.AB = wtc(t1, t2, nrands = nrands) #aplicando la transformada biwavelet
 
 par(oma = c(0,0,0,1), mar = c(5,4,5,5) + 0.1 )
 plot(wtc.AB, plot.phase = TRUE, xaxt='n', lty.coi = 1, col.coi = "grey", lwd.coi = 2,
