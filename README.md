@@ -11,7 +11,7 @@ Revisar Codigo en Posit Examen
 <a href="https://posit.cloud/spaces/658449/content/10442178" target="_blank">Enlace Posit</a>
 
 Revisar Video Examen: 
-<a href="https://drive.google.com/file/d/186L1bfXiDMf1TrOT9ixbx0XowfeoZZqr/view" target="_blank">Enlace Video</a>
+<a href="https://drive.google.com/file/d/109kDBTHa2YqdJYeZaO4FH5POjJ_YKC1E/view?usp=sharing" target="_blank">Enlace Video</a>
 
 
 **Contexto**
