@@ -7,6 +7,9 @@ Analisis de Señales presión tuberias en trazado concentraducto
 Revisar Codigo en Posit Examen
 <a href="https://posit.cloud/spaces/658449/content/10442178" target="_blank">Enlace Posit</a>
 
+Revisar Codigo Funciones
+<a href="Funciones.R" target="_blank">Enlace Funciones Aplicadas</a>
+
 Revisar Video Examen: 
 <a href="https://drive.google.com/file/d/109kDBTHa2YqdJYeZaO4FH5POjJ_YKC1E/view?usp=sharing" target="_blank">Enlace Video</a>
 
