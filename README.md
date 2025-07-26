@@ -35,154 +35,122 @@ Para esto, utilizaremos transformada de wavelet en particular función wtc.AB (b
 
 
 ```{r}
-#Implementación de Transformada Biwavelet
+#Cargar librerias requeridas
+library(readxl)
 library(biwavelet)
 library(ggplot2)
-
-#Obtener Grafico Coherencia Wavelet
-t1 <- cbind(1:17398, PA$SM1_1)
-t2 <- cbind(1:17398, PA$SM1_2)
-
-nrands = 10 #numero de simulaciones (Montecarlo)
-
-sum(is.na(t1)) #Revisar si tenemos datos NA
-sum(is.na(t2)) #Revisar si tenemos datos NA
-
-wtc.AB = wtc(t1, t2, nrands = nrands) #aplicando la transformada biwavelet
-
-par(oma = c(0,0,0,1), mar = c(5,4,5,5) + 0.1 )
-plot(wtc.AB, plot.phase = TRUE, xaxt='n', lty.coi = 1, col.coi = "grey", lwd.coi = 2,
-     lwd.sig = 2, arrow.lwd = 0.03, arrow.len = 0.12, ylab = "Escala", xlab = "min", 
-     plot.cb = T, main = "Wavelet Coherencia: SM1_1 vs SM1_2",
-     ) 
-
-
+library(testthat)
+library(zoo) 
+```
+```{r}
+#Cargamos script R en donde se encontraran las funciones a ser utilizadas
+source("Funciones.R")  # script donde estaran las funciones a ser utilizadas para el analisis de los datos de nuestra base de datos
 
 ```
+Utilizando paquete biwavelet nos centraremos en buscar el grafico de coherencia entre dos series de datos que contienen valores de presiones en la primera estación de monitoreo del concentraducto SM1_1 y SM1_2 .
 
+Se utilizara para este caso la función: `"coherencia_vavelet"`, cuyos argumentos son:
 
-<img src="img/Wavelet_Coherencia.bmp" alt="Wavelet Coherencia" width="75%"/> 
+function(series1, series2, metodo_tendencia = c("mediana", "promedio"), nrands = 10, titulo = "Wavelet Coherencia", ylab = "Escala", xlab = "min", col_coi = "grey", lwd_coi = 2, plot_phase = TRUE, mostrar_tendencia = TRUE, verbose = TRUE). La descripcion de cada argumento de esta función es:
 
+-   **`series1`** y **`series2`**: Estas son las dos series de tiempo que se van a analizar. Son los datos principales sobre los que se calculará la coherencia wavelet.
 
-Al analizar la coherencia de wavelet por medio de su gráfica podemos comparar ambas señales de los PIT ubicados al interior del bunker SM1, donde se puede observar que existe una relación de coherencia a nivel moderado por los tonos verdes de la gráfica.
+-   **`metodo_tendencia`**: Este argumento determina el método para eliminar la tendencia de las series de tiempo. Las opciones son:
+
+    -   **`"mediana"`**: Utiliza la mediana para corregir la tendencia.
+
+    -   **`"promedio"`**: Utiliza el promedio (media) para corregir la tendencia. El valor por defecto es `"mediana"`.
+
+-   **`nrands`**: Este argumento especifica el número de iteraciones o permutaciones aleatorias que se utilizarán para calcular los niveles de significancia estadística. Un número mayor de iteraciones generalmente proporciona resultados más robustos, pero también aumenta el tiempo de procesamiento. El valor predeterminado es `"10"`
+
+-   **`titulo`**: Una cadena de texto que se utiliza como título principal del gráfico resultante. El valor predeterminado es `"Wavelet Coherencia"`.
+
+-   **`ylab`** y **`xlab`**: Estos argumentos definen las etiquetas del eje Y y del eje X del gráfico, respectivamente.
+
+    -   `ylab` por defecto es `"Escala"`.
+
+    -   `xlab` por defecto es `"min"`.
+
+-   **`col_coi`** y **`lwd_coi`**: Estos argumentos controlan el color y el ancho de la línea de la "Cono de Influencia" (COI por sus siglas en inglés) en el gráfico. El COI es la región donde las estimaciones del análisis wavelet pueden estar influenciadas por los bordes de la serie de tiempo.
+
+    -   `col_coi` por defecto es `"grey"`.
+
+    -   `lwd_coi` por defecto es `2`.
+
+-   **`plot_phase`**: Un valor booleano (`TRUE` o `FALSE`) que determina si se deben graficar los vectores de fase. Estos vectores indican la relación de fase (el desfase temporal) entre las dos series de tiempo en diferentes escalas y tiempos. El valor predeterminado es `TRUE`.
+
+-   **`mostrar_tendencia`**: Un valor booleano (`TRUE` o `FALSE`) que controla si se debe mostrar la tendencia eliminada de las series de tiempo en el gráfico. El valor predeterminado es `TRUE`.
+
+-   **`verbose`**: Un valor booleano (`TRUE` o `FALSE`) que, si es `TRUE`, hará que la función imprima mensajes de progreso o información detallada durante su ejecución. El valor predeterminado es `TRUE`.
+
+```{r}
+
+coherencia_wavelet(PA$SM1_1, PA$SM1_2, metodo_tendencia = "mediana", mostrar_tendencia = FALSE, verbose=TRUE)
+```
+
+Se incluyen pruebas unitaria implementadas con la función test_file para validar el comportamiento o la robustez de las sección de código `"coherencia_wavelet()"`.
+
+test_file(): Es una función que forma parte de una librería o framework de pruebas (como testthat). Su propósito es leer un archivo de código y ejecutar todas las pruebas que contiene. Estas pruebas están diseñadas para verificar si ciertas partes de tu código (como funciones) se comportan como se espera. Archivo a utilizar test_coherencia.R
+
+```{r}
+test_file("test_coherencia.R")
+```
+
+Al analizar la coherencia de wavelet por medio de su gráfica podemos comparar ambas señales de los PIT ubicados al interior del bunker SM1, donde se puede observar que existe una relacion de coherencia a nivel moderado por los tonos verdes de la gráfica.
 
 La mayoria de la coherencia significativa existe en la escala 16 a 64, por lo que se puede inferir que las series o los datos de ambos pit estan mayormente relacionadas en frecuencias altas. Si interpretamos una frecuencia alta visualizando la operacion del concentraducto lo asociamos a una presurizacion mayor de la tuberia es decir valores mas altos, por lo que nos entregan un valor confiable para frecuencias altas.
 
-Por la ubicacion de las flechas podemos indicar que las series se encuentran en fase, oscilaciones sincronizadas es decir los PIT detectarán un evento operacional relacionado en ese lapso de tiempo, donde ademas el primer PIT (SM1_01) precede al PIT (SM1_02) es el que indica la primera señal. Las flechas indican que estan en sintonía. Los PIT se relacionan sus medida mas coherentemente en frecuencias altas.
+Por la ubicacion de las flechas podemos indicar que las series se encuentran en fase, oscilaciones sincronizadas es decir los PIT detectarán un evento operacional relacionado en ese lapso de tiempo, donde ademas el primer PIT (SM1_01) precede al PIT (SM1_02) es el que indica la primera señal. Las flechas indican que estan en sintonia. Los PIT se relacionan sus medida mas coherentemente en frecuencias altas.
+
+Ahora bien, se buscará la energía de la transformada wavelet de dos series de tiempo a través del uso de la función graficar_energia_wavelet contenida en script Funciones.R
+
+Esta función calcula la transformada wavelet de dos series de tiempo, extrae la energía en cada escala y tiempo, y genera un gráfico que muestra la distribución de la energía en función del tiempo y la escala.
 
 ```{r}
 # Calcula la energía en cada escala y tiempo
-# Transformada wavelet de cada serie
-wt1 <- wt(t1)
-wt2 <- wt(t2)
 
-#Estas gráficas muestran en qué escalas (frecuencias) cada serie concentra más energía 
-#en distintos momentos, permitiendo identificar qué frecuencias dominan en cada serie
-n# Número de escalas y tiempos
-n_scales <- nrow(wt1$power)
-n_times <- ncol(wt1$power)
-
-# Crear matrices de energía en formato largo
-# Para cada escala y cada tiempo, extraer la energía
-energy1_mat <- abs(wt1$power)
-energy2_mat <- abs(wt2$power)
-
-# Convertir a data frame largo
-df1 <- data.frame(
-  tiempo = rep(t1[,1], times = n_scales),
-  escala = rep(wt1$period, each = n_times),
-  energia = as.vector(energy1_mat),
-  serie = "SM1_1"
-)
-
-df2 <- data.frame(
-  tiempo = rep(t1[,1], times = n_scales),
-  escala = rep(wt2$period, each = n_times),
-  energia = as.vector(energy2_mat),
-  serie = "SM1_2"
-)
-
-# Unir ambos
-df_energy <- rbind(df1, df2)
-
-# Ahora graficar
-ggplot(df_energy, aes(x = tiempo, y = escala, fill = energia)) +
-  geom_tile() +
-  scale_fill_gradientn(colours = c("blue", "yellow", "red")) +
-  scale_x_continuous(name = "Minuto") +
-  scale_y_log10(name = "Escala (log)") +
-  ggtitle("Energía en función del tiempo y la escala") +
-  theme_minimal()
+graficar_energia_wavelet(PA$SM1_1,PA$SM1_2,"promedio",FALSE)
 
 ```
-
-<img src="img/Energia.bmp" alt="Energia Serie" width="75%"/> 
 
 Si analizamos las energías de cada serie en función de la escala y tiempo, podemos visualizar que la energía es baja, es decir la serie se considera estable y de baja intensidad, es decir ambos PIT reaccionan de la misma manera entre 16 y 64 hertz, reafirmando el gráfico anterior de coherencia de Wavelet. Ratificando que los transmisores de presión siguen siendo confiables a frecuencias altas.
 
+Ahora bien, se buscará graficar Serie Original vs. Serie Filtrada por Waveletla a través del uso de la función graficar graficar_serie_filtrada contenida en script Funciones.R
+
+Esta función filtra una serie de tiempo utilizando un análisis de wavelet y luego visualiza la serie original junto a la versión filtrada. El filtrado se basa en la selección de un rango específico de periodos (frecuencias) de la transformada de wavelet..
+
 ```{r}
-#Gráfico Series Originales vs frecuencias medias filtradas
-
-# Selecciona las escalas en el rango deseado
-indices <- which(wt1$period >= 16 & wt1$period <= 64) #De interpretación de wavelet Coherencia
-
-# Extrae las componentes en esas escalas
-wave_subset <- wt1$wave[indices, , drop=FALSE]  # matriz escala x tiempo
-
-# Convertir a magnitud (valor absoluto)
-reconstruccion1_mag <- Mod(colSums(wave_subset))
-
-df_recon <- data.frame(
-  tiempo = t1[,1],
-  original = t1[,2],
-  filtrada = reconstruccion1_mag
-)
-
-ggplot(df_recon, aes(x = tiempo)) +
-  geom_line(aes(y = original, color = "Original")) +
-  geom_line(aes(y = filtrada, color = "Filtrada (16-64)")) +
-  labs(
-    title = "Serie original vs. filtrada en frecuencias medias",
-    x = "Tiempo (minutos)",
-    y = "Valor"
-  ) +
-  scale_color_manual(values = c("blue", "red")) +
-  theme_minimal()
-#-------------------------------------------------------------------------------
+graficar_serie_filtrada(PA$SM1_1,PA$SM1_2,16,64,"promedio",FALSE)
 ```
-
-<img src="img/Serie original vs filtradas medias.bmp" alt="Energia Serie" width="75%"/> 
 
 A traves del grafico anterior correspondiente a espectometria de potencia, se graficó para comparar la señal original versus la media de sus valores, determinando la energia de cada una de estas variables y poder comparar ambos graficos y ver si la energia promedio de cada una se condice con la coeherencia de Wavelet. Sabemos que el rango mas coherencia de ambas señales de comportamiento es entre 16 a 64 hertz, estableciendo de que manera la señal original la comparamos con la frecuencia media filtrada de esta forma se aisla el ruido.
 
 Si observamos la linea azul correspondiente a los datos originales y la linea roja correspondiente a los datos filtrados podemos interpretar lo siguiente; la linea roja filtrada sigue una tendencia similar a la linea azul pero con menor variabilidad la linea roja por lo que se puede afirmar que los componentes en esa frecuencia 16 a 64 hertz capturan gran parte del comportamiento general de la serie eliminando los detalles de frecuencias muy altas o muy bajas, es decir reducen el ruido.
 
-Se concluye que la filtración en estos rangos de frecuencia logra seleccionar la estructura general de los valores sin fluctuaciones rapidas y con ruido, por lo que además se logra concluir que ambos PIT que se encuentran en la estación de monitoreo EM1 en esta frecuencia de entre 16 y 64 reflejan en mayor proporcion una mejor coherencia . A través de todo el análisis realizado consideramos que los instrumentos actuales en la estación de monitoreo nos entregan la confianza para los eventos de presurizacón de la tuberia, que es cuando los rangos de operación se encuentran cercanos a los máximos.
+Se concluye que la filtración en estos rangos de frecuencia logra seleccionar la estructura general de los valores sin fluctuaciones rapidas y con ruido, por lo que además se logra concluir que ambos PIT que se encuentran en la estación de monitoreo EM1en esta frecuencia de entre 16 y 64 reflejan en mayor proporcion una mejor coherencia . A través de todo el análisis realizado consideramos que los instrumentos actuales en la estación de monitoreo nos entregan la confianza para los eventos de presurizacón de la tuberia, que es cuando los rangos de operación se encuentran cercanos a los máximos.
 
 Se puede inferir que los cambios repentinos en la operación no son a intervalos regulares, esto puede ser por diferentes factores operacionales, como variacion desde sala con las variables velocidad, cambios reológicos de la pulpa a transportar entre otros. El análisis acotado de las presiones en EM1 indican que se debe prestar la atención suficiente y constante en la operatividad del concentraducto a la fecha.
 
+Ahora bien, se buscará graficar la detección de picos o eventos en una serie de tiempo usando la derivada y un umbral de cuantil a través del uso de la función detectar_eventos contenida en script Funciones.R
+
+La función `detectar_eventos` está diseñada para **identificar y visualizar eventos o picos significativos** en una serie de tiempo. Su funcionamiento se basa en el siguiente proceso:
+
+1.  **Cálculo de la derivada:** Primero, la función calcula las diferencias entre los valores consecutivos de la serie de tiempo. Esto es similar a obtener la derivada, lo que resalta los **cambios bruscos** en la serie.
+
+2.  **Detección de picos:** Luego, se establece un umbral utilizando un **cuantil** (por defecto, el 95%). Cualquier cambio (derivada) que sea mayor que este umbral se considera un pico. Esto significa que la función encuentra los cambios más grandes y atípicos en los datos.
+
+3.  **Visualización:** Finalmente, la función genera un gráfico de la serie de tiempo completa y **marca los picos detectados con puntos rojos**, facilitando su identificación visual.
+
+Además de crear el gráfico, la función devuelve los índices de los puntos donde se encontraron los picos, lo que te permite trabajar con esos datos de manera más precisa si lo necesitas. Los parámetros personalizables para el título, ejes, y el umbral del cuantil, hacen a esta función flexible para adaptarse a diferentes conjuntos de datos.
+
 ```{r}
-#Analisis de eventos o picos
-library(zoo)
-
-# Derivada (diferencias) para detectar cambios bruscos
-diff_series <- diff(t1[,2])
-
-# Detectar picos grandes
-picos <- which(abs(diff_series) > quantile(abs(diff_series), 0.95))
-
-# Graficar
-plot(t1[,1], t1[,2], type='l', main='Series con picos detectados')
-points(t1[picos,1], t1[picos,2], col='red', pch=19)
+detectar_eventos(PA,1,4)
+# columna tiempo = 1
+# columna series de datos a analizar en este caso la 4, SM1_1, puede ser 5 la SM1_2 o cualquier otra de la base de datos
 
 ```
 
-<img src="img/Eventos_picos.bmp" alt="Energia Serie" width="75%"/> 
-
 Al analizar grafico de series con picos o eventos relevantes, estos están distribuidos relativamente de manera uniforme a lo largo del tiempo, con una cierta concentración en varias zonas, pero sin patronmes claros de periodicidad. La presencia de estos eventos pueden señalar eventos importantes o anomalias en la serie, pueden corresponder a eventos específicos en el proceso que mide la serie: cambios súbitos en la variable, eventos externos, errores de medición, o episodios relevantes. La distribución uniforme de picos sugiere que estos eventos no están asociados a una tendencia o patrón periódico, sino que ocurren de manera más aleatoria o como respuesta a eventos externos.
-
-
-
 
 
 
