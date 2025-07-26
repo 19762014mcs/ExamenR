@@ -87,6 +87,7 @@ function(series1, series2, metodo_tendencia = c("mediana", "promedio"), nrands =
 
 coherencia_wavelet(PA$SM1_1, PA$SM1_2, metodo_tendencia = "mediana", mostrar_tendencia = FALSE, verbose=TRUE)
 ```
+<img src="img/Wavelet_Coherencia.bmp" alt="Wavelet Coherencia" width="600"/> 
 
 Se incluyen pruebas unitaria implementadas con la función test_file para validar el comportamiento o la robustez de las sección de código `"coherencia_wavelet()"`.
 
@@ -95,6 +96,7 @@ test_file(): Es una función que forma parte de una librería o framework de pru
 ```{r}
 test_file("test_coherencia.R")
 ```
+<img src="img/test_coherencia.jpg" alt="Test Coherencia" width="600"/> 
 
 Al analizar la coherencia de wavelet por medio de su gráfica podemos comparar ambas señales de los PIT ubicados al interior del bunker SM1, donde se puede observar que existe una relacion de coherencia a nivel moderado por los tonos verdes de la gráfica.
 
@@ -112,6 +114,7 @@ Esta función calcula la transformada wavelet de dos series de tiempo, extrae la
 graficar_energia_wavelet(PA$SM1_1,PA$SM1_2,"promedio",FALSE)
 
 ```
+<img src="img/Energia.bmp" alt="Energia Wavelet" /> 
 
 Si analizamos las energías de cada serie en función de la escala y tiempo, podemos visualizar que la energía es baja, es decir la serie se considera estable y de baja intensidad, es decir ambos PIT reaccionan de la misma manera entre 16 y 64 hertz, reafirmando el gráfico anterior de coherencia de Wavelet. Ratificando que los transmisores de presión siguen siendo confiables a frecuencias altas.
 
@@ -122,6 +125,7 @@ Esta función filtra una serie de tiempo utilizando un análisis de wavelet y lu
 ```{r}
 graficar_serie_filtrada(PA$SM1_1,PA$SM1_2,16,64,"promedio",FALSE)
 ```
+<img src="img/filtradaserie.jpg" alt="Test Coherencia" width="600"/> 
 
 A traves del grafico anterior correspondiente a espectometria de potencia, se graficó para comparar la señal original versus la media de sus valores, determinando la energia de cada una de estas variables y poder comparar ambos graficos y ver si la energia promedio de cada una se condice con la coeherencia de Wavelet. Sabemos que el rango mas coherencia de ambas señales de comportamiento es entre 16 a 64 hertz, estableciendo de que manera la señal original la comparamos con la frecuencia media filtrada de esta forma se aisla el ruido.
 
@@ -149,6 +153,7 @@ detectar_eventos(PA,1,4)
 # columna series de datos a analizar en este caso la 4, SM1_1, puede ser 5 la SM1_2 o cualquier otra de la base de datos
 
 ```
+<img src="img/eventos.jpg" alt="Test Coherencia" width="600"/> 
 
 Al analizar grafico de series con picos o eventos relevantes, estos están distribuidos relativamente de manera uniforme a lo largo del tiempo, con una cierta concentración en varias zonas, pero sin patronmes claros de periodicidad. La presencia de estos eventos pueden señalar eventos importantes o anomalias en la serie, pueden corresponder a eventos específicos en el proceso que mide la serie: cambios súbitos en la variable, eventos externos, errores de medición, o episodios relevantes. La distribución uniforme de picos sugiere que estos eventos no están asociados a una tendencia o patrón periódico, sino que ocurren de manera más aleatoria o como respuesta a eventos externos.
 
