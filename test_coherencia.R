@@ -1,4 +1,7 @@
 
+#Se incluyen pruebas unitaria implementadas con la función test_file para validar el comportamiento o la robustez de las sección de código "coherencia_wavelet()".
+#test_file(): Es una función que forma parte de una librería o framework de pruebas (como testthat). Su propósito es leer un archivo de código y ejecutar todas las pruebas que contiene. 
+#Estas pruebas están diseñadas para verificar si ciertas partes de tu código (como funciones) se comportan como se espera. Archivo a utilizar test_coherencia.R
 
 # Prueba 1: que la función funciona con datos válidos
 test_that("función funciona con datos válidos", {
